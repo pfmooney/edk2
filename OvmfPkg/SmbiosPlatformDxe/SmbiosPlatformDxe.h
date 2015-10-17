@@ -29,13 +29,13 @@
 
 
 /**
-  Locates the Xen SMBIOS data if it exists
+  Locates the bhyve SMBIOS data if it exists
 
-  @return SMBIOS_TABLE_ENTRY_POINT   Address of Xen SMBIOS data
+  @return SMBIOS_TABLE_ENTRY_POINT   Address of bhyve SMBIOS data
 
 **/
 SMBIOS_TABLE_ENTRY_POINT *
-GetXenSmbiosTables (
+GetBhyveSmbiosTables (
   VOID
   );
 
