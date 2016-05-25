@@ -347,6 +347,7 @@ INF  RuleOverride=CSM OvmfPkg/Csm/BhyveCsm16/BhyveCsm16.inf
 INF  OvmfPkg/PlatformDxe/Platform.inf
 INF  OvmfPkg/AmdSevDxe/AmdSevDxe.inf
 INF  OvmfPkg/IoMmuDxe/IoMmuDxe.inf
+INF  EmulatorPkg/EmuGopDxe/EmuGopDxe.inf
 
 !if $(SMM_REQUIRE) == TRUE
 INF  OvmfPkg/SmmAccess/SmmAccess2Dxe.inf
