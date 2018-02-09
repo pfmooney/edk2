@@ -43,6 +43,7 @@ endif
 CYGWIN:=$(findstring CYGWIN, $(shell uname -s))
 LINUX:=$(findstring Linux, $(shell uname -s))
 DARWIN:=$(findstring Darwin, $(shell uname -s))
+SUNOS:=$(findstring SunOS, $(shell uname -s))
 
 BUILD_CC ?= gcc
 BUILD_CXX ?= g++
@@ -100,6 +101,15 @@ BUILD_CXXFLAGS += $(BUILD_OPTFLAGS)
   
 # keep EXTRA_LDFLAGS last
 BUILD_LFLAGS += $(EXTRA_LDFLAGS)
+
+ifeq ($(ARCH), X64)
+ifeq ($(SUNOS),SunOS)
+  BUILD_CFLAGS   += -m64
+  BUILD_CPPFLAGS += -m64
+  BUILD_LFLAGS   += -m64
+endif
+endif
+
 
 .PHONY: all
 .PHONY: install
