@@ -862,7 +862,6 @@ GenericLegacyBoot (
   EFI_LEGACY_BIOS_PLATFORM_PROTOCOL *LegacyBiosPlatform;
   UINTN                             CopySize;
   VOID                              *AcpiPtr;
-  HDD_INFO                          *HddInfo;
   HDD_INFO                          *LocalHddInfo;
   UINTN                             Index;
   EFI_COMPATIBILITY16_TABLE         *Legacy16Table;
@@ -892,7 +891,6 @@ GenericLegacyBoot (
 
   Legacy16Table                         = Private->Legacy16Table;
   EfiToLegacy16BootTable                = &Private->IntThunk->EfiToLegacy16BootTable;
-  HddInfo = &EfiToLegacy16BootTable->HddInfo[0];
 
   LegacyBiosPlatform = Private->LegacyBiosPlatform;
 
