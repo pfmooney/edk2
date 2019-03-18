@@ -51,4 +51,19 @@ GetQemuSmbiosTables (
   VOID
   );
 
+
+/**
+  Validates the SMBIOS entry point structure
+
+  @param  EntryPointStructure  SMBIOS entry point structure
+
+  @retval TRUE   The entry point structure is valid
+  @retval FALSE  The entry point structure is not valid
+
+**/
+BOOLEAN
+IsEntryPointStructureValid (
+  IN SMBIOS_TABLE_ENTRY_POINT  *EntryPointStructure
+  );
+
 #endif
