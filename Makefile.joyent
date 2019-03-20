@@ -1,0 +1,76 @@
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+
+#
+# Copyright 2019 Joyent, Inc.
+#
+
+PROTO_AREA =	$(PWD)/../../../proto
+STRAP_AREA =	$(PWD)/../../../proto.strap
+BUILD_DIR =	Build
+
+MAKE_ARGS +=	AS=$(STRAP_AREA)/usr/gnu/bin/gas \
+		AR=$(STRAP_AREA)/usr/gnu/bin/gar \
+		LD=$(STRAP_AREA)/usr/gnu/bin/gld \
+		OBJCOPY=$(STRAP_AREA)/usr/gnu/bin/gobjcopy \
+		CC=$(STRAP_AREA)/usr/bin/gcc \
+		CXX=$(STRAP_AREA)/usr/bin/g++
+
+ARCH=		X64
+UEFI_TARGET=	RELEASE
+MAX_JOBS ?=	1
+
+CSM16 = BhyvePkg/Csm/BhyveCsm16/Bin/BhyveCsm16.bin
+
+ROMS=		uefi uefi-csm
+
+.NOTPARALLEL: $(ROMS) csm16
+
+all: $(ROMS)
+
+basetools:
+	mkdir -p $(BUILD_DIR)
+	ln -sf $(STRAP_AREA)/usr/bin/gcc $(BUILD_DIR)/gcc
+	ln -sf $(STRAP_AREA)/usr/gnu/bin/gld $(BUILD_DIR)/ld
+	ln -sf $(STRAP_AREA)/usr/gnu/bin/gar $(BUILD_DIR)/ar
+	ln -sf $(STRAP_AREA)/usr/gnu/bin/gobjcopy $(BUILD_DIR)/objcopy
+	ln -sf /opt/local/bin/gmake $(BUILD_DIR)/make
+	ln -sf /opt/local/bin/nasm $(BUILD_DIR)/nasm
+	$(MAKE) $(MAKE_ARGS) ARCH=$(ARCH) -C BaseTools
+
+$(CSM16):
+	bash -c "source edksetup.sh; \
+		$(MAKE) $(MAKE_ARGS) ARCH=$(ARCH) -C BhyvePkg/Csm/BhyveCsm16"
+
+uefi-csm: $(CSM16)
+uefi-csm: EXTRA_CFLAGS = -DCSM_ENABLE=TRUE
+
+$(ROMS): basetools
+	rm -rf Build/BhyveX64
+	bash -c 'source edksetup.sh; \
+		export ILGCC_BIN=$(PWD)/$(BUILD_DIR)/; \
+		build -t ILGCC -n $(MAX_JOBS) -a $(ARCH) -b $(UEFI_TARGET) \
+			-p BhyvePkg/BhyvePkgX64.dsc \
+			-DDEBUG_ON_SERIAL_PORT=TRUE -DFD_SIZE_1MB \
+			$(EXTRA_CFLAGS)'
+	mv $(BUILD_DIR)/BhyveX64/RELEASE_ILGCC/FV/BHYVE.fd \
+		$(BUILD_DIR)/$@-rom.bin
+
+clean:
+	rm -f Conf/BuildEnv.sh
+	rm -f Conf/build_rule.txt
+	rm -f Conf/target.txt
+	rm -f Conf/tools_def.txt
+	rm -rf $(BUILD_DIR)
+.PHONY: clean
+
+
+install: all
+	mkdir -p $(DESTDIR)/usr/share/bhyve
+	for rom in $(ROMS); do \
+		/usr/sbin/install -m 0755 -f $(DESTDIR)/usr/share/bhyve \
+		    $(VER.64)/Build/$$rom-rom.bin; \
+	done
