@@ -276,7 +276,6 @@
 !ifdef $(SOURCE_DEBUG_ENABLE)
   DebugAgentLib|SourceLevelDebugPkg/Library/DebugAgent/SecPeiDebugAgentLib.inf
 !endif
-  CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/PeiCpuExceptionHandlerLib.inf
   MpInitLib|UefiCpuPkg/Library/MpInitLib/PeiMpInitLib.inf
   QemuFwCfgS3Lib|OvmfPkg/Library/QemuFwCfgS3Lib/PeiQemuFwCfgS3LibFwCfg.inf
   PcdLib|MdePkg/Library/PeiPcdLib/PeiPcdLib.inf
@@ -628,7 +627,6 @@
 !if $(SMM_REQUIRE) == TRUE
   OvmfPkg/SmmAccess/SmmAccessPei.inf
 !endif
-  UefiCpuPkg/CpuMpPei/CpuMpPei.inf
 
 !if $(TPM2_ENABLE) == TRUE
   OvmfPkg/Tcg/Tcg2Config/Tcg2ConfigPei.inf
