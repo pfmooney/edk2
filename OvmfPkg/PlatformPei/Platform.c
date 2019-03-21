@@ -34,6 +34,7 @@
 #include <Library/QemuFwCfgLib.h>
 #include <Library/QemuFwCfgS3Lib.h>
 #include <Library/ResourcePublicationLib.h>
+#include <Library/LocalApicLib.h>
 #include <Guid/MemoryTypeInformation.h>
 #include <Ppi/MasterBootMode.h>
 #include <IndustryStandard/Pci22.h>
@@ -628,6 +629,14 @@ InitializePlatform (
   EFI_STATUS    Status;
 
   DEBUG ((DEBUG_INFO, "Platform PEIM Loaded\n"));
+
+  //
+  // Initialize Local APIC Timer hardware and disable Local APIC Timer
+  // interrupts before initializing the Debug Agent and the debug timer is
+  // enabled.
+  //
+  InitializeApicTimer (0, MAX_UINT32, TRUE, 5);
+  DisableApicTimerInterrupt ();
 
   DebugDumpCmos ();
 

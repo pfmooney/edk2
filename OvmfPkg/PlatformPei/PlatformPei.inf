@@ -69,6 +69,7 @@
   MtrrLib
   MemEncryptSevLib
   PcdLib
+  LocalApicLib
 
 [Pcd]
   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfPeiMemFvBase
