@@ -77,6 +77,7 @@ typedef struct {
 #pragma pack ()
 
 STATIC inline
+UINT8
 EFIAPI
 IoRead8 (
   IN      UINTN                     Port

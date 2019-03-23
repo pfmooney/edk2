@@ -21,6 +21,7 @@
 
 #include "Platform.h"
 
+#if 0
 //
 // The value to be written to the Feature Control MSR, retrieved from fw_cfg.
 //
@@ -105,6 +106,7 @@ STATIC CONST EFI_PEI_NOTIFY_DESCRIPTOR mMpServicesNotify = {
   &gEfiPeiMpServicesPpiGuid,               // Guid
   OnMpServicesAvailable                    // Notify
 };
+#endif
 
 VOID
 InstallFeatureControlCallback (
