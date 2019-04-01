@@ -21,6 +21,7 @@ MAKE_ARGS +=	AS=$(STRAP_AREA)/usr/gnu/bin/gas \
 
 ARCH=		X64
 UEFI_TARGET=	RELEASE
+UEFI_TARGET=	DEBUG
 MAX_JOBS ?=	1
 
 CSM16 = BhyvePkg/Csm/BhyveCsm16/Bin/BhyveCsm16.bin
@@ -54,9 +55,9 @@ $(ROMS): basetools
 		export ILGCC_BIN=$(PWD)/$(BUILD_DIR)/; \
 		build -t ILGCC -n $(MAX_JOBS) -a $(ARCH) -b $(UEFI_TARGET) \
 			-p BhyvePkg/BhyvePkgX64.dsc \
-			-DDEBUG_ON_SERIAL_PORT=TRUE -DFD_SIZE_1MB \
+			-DFD_SIZE_2MB \
 			$(EXTRA_CFLAGS)'
-	mv $(BUILD_DIR)/BhyveX64/RELEASE_ILGCC/FV/BHYVE.fd \
+	mv $(BUILD_DIR)/BhyveX64/$(UEFI_TARGET)_ILGCC/FV/BHYVE.fd \
 		$(BUILD_DIR)/$@-rom.bin
 
 clean:
@@ -68,9 +69,18 @@ clean:
 .PHONY: clean
 
 
-install: all
+install_real: all
 	mkdir -p $(DESTDIR)/usr/share/bhyve
 	for rom in $(ROMS); do \
 		/usr/sbin/install -m 0755 -f $(DESTDIR)/usr/share/bhyve \
 		    $(VER.64)/Build/$$rom-rom.bin; \
 	done
+
+
+# obligatory
+world:
+
+install:
+
+manifest:
+	touch $(DESTDIR)/$(DESTNAME)

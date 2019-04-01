@@ -15,13 +15,6 @@
 
 #include "CsmSupportLib.h"
 
-#ifndef NOT_BHYVE
-VOID
-ShadowSystemTables (
-  VOID
-  );
-#endif
-
 /**
   The constructor function for the platform CSM support library
 
@@ -39,10 +32,6 @@ CsmSupportLibConstructor (
   LegacyInterruptInstall ();
 
   LegacyBiosPlatformInstall ();
-
-#ifndef NOT_BHYVE
-  ShadowSystemTables ();
-#endif
 
   return EFI_SUCCESS;
 }

@@ -295,7 +295,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdVpdBaseAddress|0x0
 
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x07
-  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000004F
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0xFFFFFFCF
 !ifdef $(SOURCE_DEBUG_ENABLE)
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x17
 !else
@@ -555,11 +555,7 @@
 !endif
   IntelFrameworkModulePkg/Csm/LegacyBiosDxe/LegacyBiosDxe.inf
 !ifdef $(CSM_ENABLE)
-!ifdef $(NOT_BHYVE)
   BhyvePkg/Csm/Csm16/Csm16.inf
-!else
-  BhyvePkg/Csm/BhyveCsm16/BhyveCsm16.inf
-!endif
 !endif
 
 !ifndef $(USE_OLD_SHELL)

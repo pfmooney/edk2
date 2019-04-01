@@ -379,7 +379,7 @@ INF  IntelFrameworkModulePkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf
 !endif
 INF  IntelFrameworkModulePkg/Csm/LegacyBiosDxe/LegacyBiosDxe.inf
 !ifdef $(CSM_ENABLE)
-INF  RuleOverride=CSM BhyvePkg/Csm/BhyveCsm16/BhyveCsm16.inf
+INF  RuleOverride=CSM BhyvePkg/Csm/Csm16/Csm16.inf
 !endif
 
 INF  BhyvePkg/BhyveGopDxe/BhyveGopDxe.inf
