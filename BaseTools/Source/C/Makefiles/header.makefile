@@ -38,6 +38,7 @@ endif
 CYGWIN:=$(findstring CYGWIN, $(shell uname -s))
 LINUX:=$(findstring Linux, $(shell uname -s))
 DARWIN:=$(findstring Darwin, $(shell uname -s))
+SUNOS:=$(findstring SunOS, $(shell uname -s))
 
 BUILD_CC ?= gcc
 BUILD_CXX ?= g++
@@ -90,6 +91,15 @@ ifeq ($(DARWIN),Darwin)
   BUILD_CFLAGS   += -arch i386
   BUILD_CPPFLAGS += -arch i386
   BUILD_LFLAGS   += -arch i386
+endif
+endif
+
+ifeq ($(ARCH), X64)
+ifeq ($(SUNOS),SunOS)
+  BUILD_CFLAGS += -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
+  CFLAGS   += -m64
+  CPPFLAGS += -m64
+  LFLAGS   += -m64
 endif
 endif
 
